@@ -19,29 +19,7 @@ import {
   updateClub,
 } from "./services/club.service";
 import { getLeagueList } from "./services/league.service";
-
-const selectRenderer = ({ field }, items, placeholder, value, label) => {
-  return (
-    <select {...field}>
-      <option>{placeholder}</option>
-      {items.map((opt) => (
-        <option key={opt[value]} value={Number(opt[value])}>
-          {opt[label]}
-        </option>
-      ))}
-    </select>
-  );
-};
-
-const selectDisplayRenderer = (props, items, value, label) => {
-  return (
-    <div>{items.find((l) => l[value] === props[value])?.[label] || ""}</div>
-  );
-};
-
-const styles = {
-  container: { margin: "auto", width: "fit-content" },
-};
+import { selectDisplayRenderer, selectRenderer, styles } from "./shared";
 
 const validation = (values) => {
   const errors = {};
