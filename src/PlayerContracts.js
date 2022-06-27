@@ -7,7 +7,7 @@ import CRUDTable, {
   DeleteForm,
 } from "react-crud-table";
 import * as _ from "lodash";
-
+import ReactToPdf from "react-to-pdf";
 // Component's Base CSS
 import "./index.css";
 import Loader from "./Loader";
@@ -131,124 +131,139 @@ const PlayerContracts = () => {
   if (loading) {
     return <Loader />;
   }
+  const ref = React.createRef();
+
+  const name = "player_contracts_" + Date.now();
 
   return (
     <div style={styles.container}>
-      <CRUDTable
-        caption="PlayerContract"
-        fetchItems={(payload) => service.fetchItems(payload)}
-        // items={clubs}
+      <ReactToPdf
+        targetRef={ref}
+        filename={`${name}.pdf`}
+        options={{ orientation: "landscape" }}
+        scale={1.1}
       >
-        <Fields>
-          <Field
-            name="documentNumber"
-            label="documentNumber"
-            placeholder="documentNumber"
-          />
-          <Field
-            name="playerId"
-            label="player"
-            placeholder="player"
-            type="number"
-            render={(data) =>
-              selectRenderer(
-                data,
-                players,
-                "Select player",
-                "playerId",
-                "playerName"
-              )
-            }
-            tableValueResolver={(data) =>
-              selectDisplayRenderer(data, players, "playerId", "playerName")
-            }
-          />
-          <Field
-            name="clubManagerId"
-            label="clubManager"
-            placeholder="clubManager"
-            type="number"
-            render={(data) =>
-              selectRenderer(
-                data,
-                clubManagers,
-                "Select clubManager",
-                "clubManagerId",
-                "clubManagerName"
-              )
-            }
-            tableValueResolver={(data) =>
-              selectDisplayRenderer(
-                data,
-                clubManagers,
-                "clubManagerId",
-                "clubManagerName"
-              )
-            }
+        {({ toPdf }) => <button onClick={toPdf}>Generate pdf</button>}
+      </ReactToPdf>
+      <div ref={ref}>
+        <CRUDTable
+          caption="PlayerContract"
+          fetchItems={(payload) => service.fetchItems(payload)}
+          // items={clubs}
+        >
+          <Fields>
+            <Field
+              name="documentNumber"
+              label="documentNumber"
+              placeholder="documentNumber"
+            />
+            <Field
+              name="playerId"
+              label="player"
+              placeholder="player"
+              type="number"
+              render={(data) =>
+                selectRenderer(
+                  data,
+                  players,
+                  "Select player",
+                  "playerId",
+                  "playerName"
+                )
+              }
+              tableValueResolver={(data) =>
+                selectDisplayRenderer(data, players, "playerId", "playerName")
+              }
+            />
+            <Field
+              name="clubManagerId"
+              label="clubManager"
+              placeholder="clubManager"
+              type="number"
+              render={(data) =>
+                selectRenderer(
+                  data,
+                  clubManagers,
+                  "Select clubManager",
+                  "clubManagerId",
+                  "clubManagerName"
+                )
+              }
+              tableValueResolver={(data) =>
+                selectDisplayRenderer(
+                  data,
+                  clubManagers,
+                  "clubManagerId",
+                  "clubManagerName"
+                )
+              }
+            />
+
+            <Field
+              name="signatureDate"
+              label="Signature Date"
+              placeholder="signatureDate"
+              type="date"
+              render={dateRenderer}
+              tableValueResolver={(data) =>
+                dateDisplayRenderer(data, "signatureDate")
+              }
+            />
+            <Field
+              name="endDate"
+              label="End Date"
+              placeholder="endDate"
+              type="date"
+              render={dateRenderer}
+              tableValueResolver={(data) =>
+                dateDisplayRenderer(data, "endDate")
+              }
+            />
+            <Field
+              name="estimatedSalaryPerYear"
+              label="Estimated Salary PerYear"
+              placeholder="estimatedSalaryPerYear"
+            />
+            <Field
+              name="playerNumber"
+              label="playerNumber"
+              placeholder="playerNumber"
+            />
+          </Fields>
+          <CreateForm
+            title="PlayerContract Creation"
+            message="Create a new PlayerContract!"
+            trigger="Create PlayerContract"
+            onSubmit={(task) => service.create(task)}
+            submitText="Create"
+            validate={(values) => {
+              return validation(values);
+            }}
           />
 
-          <Field
-            name="signatureDate"
-            label="Signature Date"
-            placeholder="signatureDate"
-            type="date"
-            render={dateRenderer}
-            tableValueResolver={(data) =>
-              dateDisplayRenderer(data, "signatureDate")
-            }
+          <UpdateForm
+            title="PlayerContract Update Process"
+            message="Update PlayerContract"
+            trigger="Update"
+            onSubmit={(task) => service.update(task)}
+            submitText="Update"
+            validate={(values) => {
+              return validation(values);
+            }}
           />
-          <Field
-            name="endDate"
-            label="End Date"
-            placeholder="endDate"
-            type="date"
-            render={dateRenderer}
-            tableValueResolver={(data) => dateDisplayRenderer(data, "endDate")}
-          />
-          <Field
-            name="estimatedSalaryPerYear"
-            label="Estimated Salary PerYear"
-            placeholder="estimatedSalaryPerYear"
-          />
-          <Field
-            name="playerNumber"
-            label="playerNumber"
-            placeholder="playerNumber"
-          />
-        </Fields>
-        <CreateForm
-          title="PlayerContract Creation"
-          message="Create a new PlayerContract!"
-          trigger="Create PlayerContract"
-          onSubmit={(task) => service.create(task)}
-          submitText="Create"
-          validate={(values) => {
-            return validation(values);
-          }}
-        />
 
-        <UpdateForm
-          title="PlayerContract Update Process"
-          message="Update PlayerContract"
-          trigger="Update"
-          onSubmit={(task) => service.update(task)}
-          submitText="Update"
-          validate={(values) => {
-            return validation(values);
-          }}
-        />
-
-        <DeleteForm
-          title="PlayerContract Delete Process"
-          message="Are you sure you want to delete the PlayerContract?"
-          trigger="Delete"
-          onSubmit={(task) => service.delete(task)}
-          submitText="Delete"
-          validate={(values) => {
-            return {};
-          }}
-        />
-      </CRUDTable>
+          <DeleteForm
+            title="PlayerContract Delete Process"
+            message="Are you sure you want to delete the PlayerContract?"
+            trigger="Delete"
+            onSubmit={(task) => service.delete(task)}
+            submitText="Delete"
+            validate={(values) => {
+              return {};
+            }}
+          />
+        </CRUDTable>
+      </div>
     </div>
   );
 };

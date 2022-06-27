@@ -369,6 +369,8 @@ body {
 }
 
 
+
+
 .lds-spinner {
   color: official;
   display: inline-block;
@@ -510,4 +512,14 @@ button[type="submit"].login-sbm:hover {
   flex-direction: column;
   gap: 8px;
   margin: 10px;
+}
+
+.stats{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+
 }

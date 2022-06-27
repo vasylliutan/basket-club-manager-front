@@ -92,7 +92,7 @@ const SSSA = () => {
   return (
     <div style={styles.container}>
       <CRUDTable
-        caption="TCSC"
+        caption="SSSA"
         fetchItems={(payload) => service.fetchItems(payload)}
         // items={clubs}
       >

@@ -97,12 +97,15 @@ function App() {
     "SponsorAgreements", //18
     "SSSA", //19
     "Stats", //20
+    "Agents", //21
+    "Trainers", //22
+    "TrainerContracts", //23
   ];
   const adminTabs = [
-    0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 22,
   ];
-  const managerTabs = [0, 1, 2, 5];
-  const directorTabs = [3, 4, 5, 20];
+  const managerTabs = [5, 15, 18, 23];
+  const directorTabs = [5, 20, 15, 18, 23];
 
   const displayTabs = isAdmin
     ? adminTabs
